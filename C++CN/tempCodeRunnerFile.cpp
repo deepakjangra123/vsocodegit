@@ -1,10 +1,21 @@
 #include<iostream>
 using namespace std;
-int main() {
-  char st[] = "ABCD";
-  for(int i = 0; st[i] != '\0'; i++) {
-     cout << st[i] << *(st)+i << *(i+st) << i[st];
-  }
-  return 0;
+int f(int x, int *py, int **ppz)
+{
+   int y, z;
+   **ppz += 1;
+   z = **ppz;
+   *py += 2;
+   y = *py;
+   x += 3;
+   return x + y + z;
 }
-
+int main()
+{
+   int c, *b, **a;
+   c = 4;
+   b = &c;
+   a = &b;
+   cout << f(c, b, a);
+   return 0;
+}

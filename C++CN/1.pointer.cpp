@@ -504,7 +504,7 @@ int main()
    cout << p + 4 << endl;               // o
    cout << p << endl;                   // hello
    cout << *p << endl;                  //  h
-   cout << *p + 1 << endl;              //  garbage
+   cout << *p + 1 << endl;              //(unknown 2 me)  value of char (i.e *p =65 => cout<< *p  ==>A)
    cout << *(p + 1) << endl;            //  e
    cout << *p << endl;                  // h    no actuall incrrement in pointer
    cout << *(p + 2) << endl;            //  l
@@ -762,16 +762,14 @@ int main()
    return 0;
 }
 
-
-
-#include<iostream>
+#include <iostream>
 using namespace std;
-void swap (char *x, char *y) 
+void swap(char *x, char *y)
 {
-  char *t = x;
-  x = y;
-  y = t;
-  cout<<x << " "<<y; // geeksforgeeks geeksquiz
+   char *t = x;
+   x = y;
+   y = t;
+   cout << x << " " << y; // geeksforgeeks geeksquiz
 }
 
 int main()
@@ -779,43 +777,117 @@ int main()
    char *x = "geeksquiz";
    char *y = "geeksforgeeks";
    char *t;
-   swap(x, y);     // geeksforgeeks geeksquiz  // only swap inside the the function but not outside
-   cout<<x << " "<<y;  // geeksquiz geeksforgeeks
+   swap(x, y);            // geeksforgeeks geeksquiz  // only swap inside the the function but not outside
+   cout << x << " " << y; // geeksquiz geeksforgeeks
    t = x;
    x = y;
-   y = t; 
-   cout<<" "<<x<< " "<<y; // geeksforgeeks geeksquiz  // now they swap globally
+   y = t;
+   cout << " " << x << " " << y; // geeksforgeeks geeksquiz  // now they swap globally
    return 0;
 }
-
 
 #include <iostream>
 using namespace std;
 int main()
 {
-  float arr[5] = {12.5, 10.0, 13.5, 90.5, 0.5};
-  float *ptr1 = &arr[0];
-  float *ptr2 = ptr1 + 3;
-  cout<<*ptr1<<endl; // 12.5
-  cout<<*ptr2<<endl; // 90.5
-  cout<< ptr1<<endl; // 0x61fef4
-  cout<<&arr[0]<<endl; // 0x61fef4
-  cout<<arr<<endl; //0x61fef4
-  cout<< ptr2<<endl;  //0x61ff00
-  cout<<&arr[3]<<endl; //0x61ff00
-  cout<<arr+3<<endl;  //0x61ff00
-  cout<<ptr2 - ptr1; // 3  // difference in index
-  return 0;
+   float arr[5] = {12.5, 10.0, 13.5, 90.5, 0.5};
+   float *ptr1 = &arr[0];
+   float *ptr2 = ptr1 + 3;
+   cout << *ptr1 << endl;   // 12.5
+   cout << *ptr2 << endl;   // 90.5
+   cout << ptr1 << endl;    // 0x61fef4
+   cout << &arr[0] << endl; // 0x61fef4
+   cout << arr << endl;     // 0x61fef4
+   cout << ptr2 << endl;    // 0x61ff00
+   cout << &arr[3] << endl; // 0x61ff00
+   cout << arr + 3 << endl; // 0x61ff00
+   cout << ptr2 - ptr1;     // 3  // difference in index
+   return 0;
 }
 
+#include <iostream>
+using namespace std;
+int main()
+{
+   char st[] = "ABCD";
+   cout << 0 [st] << endl;             // A
+   cout << 1 [st] << endl;             // B
+   cout << 2 [st] << endl;             // C
+   cout << 3 [st] << endl;             // D
+   cout << 4 [st] << endl;             // garbage
+   cout << st[0] << endl;              // A
+   cout << st[1] << endl;              // B
+   cout << st[2] << endl;              // C
+   cout << st[3] << endl;              // D
+   cout << st[4] << endl;              // garbage
+   cout << *st << endl;                // A
+   cout << *(st + 1) << endl;          // B
+   cout << *(st + 2) << endl;          // C
+   cout << *(st + 3) << endl;          // D
+   cout << *(st + 4) << endl;          // garbage
+   for (int i = 0; st[i] != '\0'; i++) // 65 66 67 68
+   {
+      cout << *(st) + i << endl;
+   }
+   return 0;
+}
 
+#include <iostream>
+using namespace std;
+void Q(int z)
+{
+   z += z;
+   cout << z << " "; // 14
+}
+
+void P(int *y)
+{
+   int x = *y + 2;
+   Q(x);
+   *y = x - 1;
+   cout << x << " ";  // 7
+   cout << *y << " "; // 6
+}
+
+int main()
+{
+   int x = 5;
+   P(&x);
+   cout << x; // 6
+   return 0;
+}
+
+#include <iostream>
+using namespace std;
+int main()
+{
+   int ***r, **q, *p, i = 8;
+   p = &i;
+   (*p)++;
+   q = &p;
+   (**q)++;
+   r = &q;
+   cout << *p << " " << **q << " " << ***r; // 10 10 10
+   return 0;
+}
 #include<iostream>
 using namespace std;
-int main() {
-  char st[] = "ABCD";
-  for(int i = 0; st[i] != '\0'; i++) {
-     cout << st[i] << *(st)+i << *(i+st) << i[st];
-  }
-  return 0;
+int f(int x, int *py, int **ppz)
+{
+   int y, z;
+   **ppz += 1;
+   z = **ppz;
+   *py += 2;
+   y = *py;
+   x += 3;
+   return x + y + z;
 }
-
+int main()
+{
+   int c, *b, **a;
+   c = 4;
+   b = &c;
+   a = &b;
+   cout << f(c, b, a);
+   return 0;
+}
